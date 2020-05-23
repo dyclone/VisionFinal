@@ -9,13 +9,13 @@ cap.set(4, frameHeight)
 
 def empty(a):
     pass
-
+'''
 cv2.namedWindow("Parameters")
 cv2.resizeWindow("Parameters", 640, 240)
 cv2.createTrackbar("Threshold1", "Parameters", 150, 255,empty)
 cv2.createTrackbar("Threshold2", "Parameters", 255, 255,empty)
 cv2.createTrackbar("Area", "Parameters", 0, 30000, empty)
-
+'''
 def stackImages(scale,imgArray):
     rows = len(imgArray)
     cols = len(imgArray[0])
@@ -76,7 +76,71 @@ def getContours(img, imgContour):
             cv2.putText(imgContour, shape, (x + int(w/2) - 10, y + int(h/2)), cv2.FONT_HERSHEY_SIMPLEX, .7,
                         (255, 255, 255), 2)
 
+def get_test_params(a_file):
+    tester = open(a_file)
+    inputs = []
+    for x in tester:
+        line_read = []
+        for word in x.split():
+            line_read.append(word)
+        inputs.append(line_read[1:])
+    tester.close()
+    return inputs
 
+def shape_detection(a_file_name):
+    cv2.namedWindow("Parameters")
+    cv2.resizeWindow("Parameters", 640, 240)
+    cv2.createTrackbar("Threshold1", "Parameters", 150, 255, empty)
+    cv2.createTrackbar("Threshold2", "Parameters", 255, 255, empty)
+    cv2.createTrackbar("Area", "Parameters", 0, 30000, empty)
+
+    while True:
+        # Read Camera
+        # success, img = cap.read()
+        img = cv2.imread(a_file_name)
+        img = cv2.resize(img, (540, 380))
+
+        # Blur and Convert camera feed to gray scale
+        imgBlur = cv2.GaussianBlur(img, (7, 7), 1)
+        imgGray = cv2.cvtColor(imgBlur, cv2.COLOR_BGR2GRAY)
+
+        # Use canny edge detection
+        threshold1 = cv2.getTrackbarPos("Threshold1", "Parameters")
+        threshold2 = cv2.getTrackbarPos("Threshold2", "Parameters")
+        imgCanny = cv2.Canny(imgGray, threshold1, threshold2)
+
+        # Remove noise and overlap from canny edge detection
+        kernel = np.ones((5, 5))
+        imgdil = cv2.dilate(imgCanny, kernel, iterations=1)
+
+        # Use imgCanny to develop contours and put the results in the original image
+        imgContour = img.copy()
+        getContours(imgCanny, imgContour)
+
+        # Use imgDil to develop contours and put the results in the original image
+        imgContour2 = img.copy()
+        getContours(imgdil, imgContour2)
+
+        # Store the results at each step of getting an image, finding the contours and identifying shapes
+        imgStack = stackImages(0.8, ([img, imgGray, imgCanny],
+                                     [imgdil, imgContour, imgContour2]))
+
+        # Display the results as long as you dont press q
+        cv2.imshow("Result", imgStack)
+        if cv2.waitKey(1) & 0xff == ord('q'):
+            break
+
+def main():
+    inputs = get_test_params("testparameters.txt")
+    test_num = int(input("Enter the test you would like to run:")) - 1
+    test_image = inputs[test_num][0]
+    shape_detection(test_image)
+
+if __name__ == '__main__':
+    main()
+
+
+'''
 while True:
     #Read Camera
     #success, img = cap.read()
@@ -112,3 +176,4 @@ while True:
     cv2.imshow("Result", imgStack)
     if cv2.waitKey(1) & 0xff == ord('q'):
         break
+'''
