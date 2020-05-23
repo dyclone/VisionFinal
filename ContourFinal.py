@@ -122,8 +122,8 @@ def shape_detection(a_file_name):
         getContours(imgdil, imgContour2)
 
         # Store the results at each step of getting an image, finding the contours and identifying shapes
-        imgStack = stackImages(0.8, ([img, imgGray, imgCanny],
-                                     [imgdil, imgContour, imgContour2]))
+        imgStack = stackImages(0.8, ([img, imgCanny, imgdil],
+                                     [imgGray, imgContour, imgContour2]))
 
         # Display the results as long as you dont press q
         cv2.imshow("Result", imgStack)
