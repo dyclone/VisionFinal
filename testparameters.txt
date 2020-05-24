@@ -5,3 +5,4 @@ Test_4: shapes_and_colors.jpg
 Test_5: box.jpg
 Test_6: earth.jpg
 Test_7: paper.jpg
+Test_8: paintshapes.png

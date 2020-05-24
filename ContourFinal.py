@@ -3,6 +3,7 @@ from scipy import spatial
 import cv2
 from scipy.spatial.qhull import QhullError
 
+
 frameWidth = 640
 frameHeight = 480
 cap = cv2.VideoCapture(0)
