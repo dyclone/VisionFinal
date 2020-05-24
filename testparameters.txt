@@ -6,3 +6,5 @@ Test_5: box.jpg
 Test_6: earth.jpg
 Test_7: paper.jpg
 Test_8: paintshapes.png
+Test_9: paintshapes2.png
+Test_10: paintshapes3.png
