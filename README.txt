@@ -1,8 +1,10 @@
-How To Run The Shape Detecction Code
+Authors: Daniel Cortes and Carlton Brady
+
+How To Run The Shape Detection Code
 - Make sure all the files are in the same directory
 - Press the run button or run command to run the file ContourFinal.py
 - From the list of 10 images, in the console enter the number of the image you want to see shape detection on. Afterwards
-you will be asked which method to use. One is the douglas peuker algorithm which was discussed in class. The second
+you will be asked which method to use. One is the Douglas-Peucker algorithm which was discussed in class. The second
 algorithm is one that was mention from previous research
 - Once the inputs are in wait for two window to pop up, if they don't look on your toolbar for two windows
 - One window is a trackbar with three bars. One for threshold 1, threshold 2 and area. Both threshold bars can be moved
